@@ -1,0 +1,18 @@
+%concateneaza(L:Lista, P:Lista, R:lista)
+concateneaza([],[],[]):-!.
+concateneaza([],P,P):-!.
+concateneaza(L,[],L):-!.
+concateneaza([H|T],P,R):-
+    concateneaza(T,P,R1),
+    R=[H|R1].
+
+%inlocuieste(L:Lista, E:intreg, X:Lista, R:Lista)
+inlocuieste([],_,_,[]):-!.
+inlocuieste([H|T],E,X,R):-
+    H=E,
+    !,
+    concateneaza(X,R,R1),
+    inlocuieste(T,E,X,R1).
+inlocuieste([H|T],E,X,R):-
+    inlocuieste(T,E,X,R1),
+    R=[H|R1].

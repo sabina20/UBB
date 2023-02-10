@@ -1,0 +1,31 @@
+%List =Integer*
+%elimina(E:Integer, L:List, R:List)
+%Modele de flux: (i,i,o), (i,i,i)
+%E - elementul pe care il eliminam din lista
+%L - lista din care eliminam elementul E
+%R - lista L din care am eliminat aparitiile lui E
+elimina(_,[],[]).
+elimina(N,[L1],[]):-
+    N=L1.
+elimina(N,[L1],[L1]):-
+    N\=L1.
+elimina(N,[H|T],R):-
+    H=N,
+    elimina(N,T,R).
+elimina(N,[H|T],R):-
+    H\=N,
+    elimina(N,T,R1),
+    R=[H|R1].
+
+%multime(L:List, R:List)
+%Modele de flux: (i,o), (i,i)
+%L - lista initiala data
+%R - multimea rezultata din lista L
+multime([],[]).
+multime([L1],[L1]).
+multime([H|T],R):-
+    elimina(H,T,R1),
+    multime(R1,R2),
+    R=[H|R2].
+
+

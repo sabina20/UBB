@@ -1,0 +1,4 @@
+%nr_par(L:Lista)
+nr_par([]):-!.
+nr_par([H1,H2|T]):-
+    nr_par(T).

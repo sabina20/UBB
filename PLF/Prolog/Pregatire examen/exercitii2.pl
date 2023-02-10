@@ -1,0 +1,98 @@
+putere(_,0,1):-!.
+putere(X,N,R):-
+    N1 is N-1,
+    putere(X,N1,R1),
+    R is R1*X.
+
+apare([H|_],E):-
+    H=E,!.
+apare([_|T],E):-
+    apare(T,E).
+
+sterge([],_,[]).
+sterge([H|T],E,R):-
+    H=E,!,
+    sterge(T,E,R).
+sterge([H|T],E,R):-
+    sterge(T,E,R1),
+    R=[H|R1].
+
+multime([],[]).
+multime([H|T],R):-
+    apare(T,H),!,
+    sterge(T,H,L1),
+    multime(L1,R1),
+    R=[H|R1].
+multime([H|T],R):-
+    multime(T,R1),
+    R=[H|R1].
+
+lungime([],0).
+lungime([_|T],R):-
+    lungime(T,R1),
+    R is R1+1.
+
+candidat([H|_],H).
+candidat([_,H2|T],R):-
+    candidat([H2|T],R).
+
+perm3(L,C,C):-lungime(L,X1),
+    lungime(C,X2),
+    X1=X2.
+perm3(L,[H|T],R):-
+    candidat(L,X),
+    not(candidat([H|T],X)),
+    A is abs(H-X),
+    3 >= A,
+    perm3(L,[X,H|T],R).
+perm3(L,[],R):-
+    candidat(L,X),
+    perm3(L,[X],R).
+
+maxim([],M,M).
+maxim([H|T],M,R):-
+    H>M,!,
+    maxim(T,H,R).
+maxim([_|T],M,R):-
+    maxim(T,M,R).
+
+elimina([],_,[]).
+elimina([H|T],E,R):-
+    H=E,!,
+    elimina(T,E,R).
+elimina([H|T],E,R):-
+    elimina(T,E,R1),
+    R=[H|R1].
+
+elimina_max([],[]).
+elimina_max([H|T],R):-
+    is_list(H),!,
+    M is 0,
+    maxim(H,M,X),
+    elimina(H,X,R1),
+    elimina_max(T,R2),
+    R=[R1|R2].
+elimina_max([H|T],R):-
+    elimina_max(T,R1),
+    R=[H|R1].
+
+
+concat([],[],[]).
+concat(L1,[],L1).
+concat([],L2,L2).
+concat([H|T],L2,R):-
+    concat(T,L2,R1),
+    R=[H|R1].
+
+liniarizare([],[]).
+liniarizare([H|T],R):-
+    number(H),
+    liniarizare(T,R1),
+    R=[H|R1].
+liniarizare([H|T],R):-
+    is_list(H),
+    liniarizare(H,R1),
+    liniarizare(T,R2),
+    concat(R1,R2,R3),
+    R is R3.
+

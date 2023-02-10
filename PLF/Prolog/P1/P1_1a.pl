@@ -1,0 +1,21 @@
+%List =Integer*
+%exista(L:List, E:Integer)
+%Modele de flux: (i,i,o), (i,i,i)
+%E - elementul a carui existenta o verificam in lista
+%L - lista n care verificam daca exista elementul E
+exista([H|_],H).
+exista([_|T],E):-
+    exista(T,E).
+
+%diferenta(A:Lista, B:Lista, R:Lista)
+%Modele de flux: (i,i,o), (i,i,i) deterministe
+
+diferenta([],_,[]).
+diferenta([H|T],B,R):-
+    exista(B,H),
+    !,
+    diferenta(T,B,R).
+diferenta([H|T],B,R):-
+    diferenta(T,B,R1),
+    R=[H|R1].
+

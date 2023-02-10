@@ -1,0 +1,53 @@
+%9a
+%Lista=Intreg*
+%sterg(L:Lista, F:Intreg, R:Lista)
+%Modele de flux: (i,,i,o), (i,i,i) deterministe
+% L: lista liniara numerica din care se sterg secventele de valori
+% consecutive
+% F: flag - 1 daca elementul curent face parte dintr-o secventa de
+% valori consecutive, 0 altfel
+% R: lista rezultata in urma eliminarii secventelor consecutive din L
+
+sterg([],_,[]).
+sterg([_],1,[]).
+sterg([L1],0,[L1]).
+sterg([L1,L2|T],_,R):-
+    L2=:=L1+1,
+    sterg([L2|T],1,R).
+sterg([L1,L2|T],1,R):-
+    L2=\=L1+1,
+    sterg([L2|T],0,R).
+sterg([L1,L2|T],0,R):-
+    L2=\=L1+1,
+    sterg([L2|T],0,R1),
+    R=[L1|R1].
+
+%Lista=Intreg*
+%sterg_princ(L:Lista, R:Lista)
+%Modele de flux: (i,o), (i,i) deterministe
+% L: lista liniara numerica din care se sterg secventele de valori
+% consecutive
+% R: lista L dupa stergerea secventelor de valori consecutive
+
+sterg_princ(L,R):-sterg(L,0,R).
+
+%9b
+%Lista=Intreg*
+%ListaE=(Intreg/Lista)*
+%sterg_listaE(L:ListaE, R:ListaE)
+%Modele de flux: (i,o), (i,i) deterministe
+% L: lista eterogena din sublistele careia se vor elimina secventele de
+% valori consecutive
+% R: lista eterogena rezultata in urma eliminarii secventelor de valori
+% consecutive din L
+
+sterg_listaE([],[]).
+sterg_listaE([H|T],R):-
+    number(H),
+    sterg_listaE(T,R1),
+    R=[H|R1].
+sterg_listaE([H|T],R):-
+    is_list(H),
+    sterg_listaE(T,R1),
+    sterg_princ(H,R2),
+    R=[R2|R1].

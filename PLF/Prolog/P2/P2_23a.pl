@@ -1,0 +1,29 @@
+%minim(L:Lista, MIN:Intreg, R:Intreg)
+minim([],MIN,MIN):-!.
+minim([H|T],MIN,R):-
+    H < MIN,
+    !,
+    minim(T,H,R).
+minim([_|T],MIN,R):-
+    minim(T,MIN,R).
+
+%elimina(L:Lista, E:Intreg, R:Lista)
+elimina([],_,[]).
+elimina([H|T],E,R):-
+    H = E,
+    !,
+    elimina(T,E,R).
+elimina([H|T],E,R):-
+    elimina(T,E,R1),
+    R=[H|R1].
+
+inverseaza([],C,C):-!.
+inverseaza([H|T],C,R):-
+    inverseaza(T,[H|C],R).
+
+%sortare(L:Lista, C:Lista, R:Lista)
+sortare([],C,C):-!.
+sortare([H|T],C,R):-
+    minim(T,H,MIN),
+    elimina([H|T],MIN,L),
+    sortare(L,[MIN|C],R).
